@@ -54,10 +54,25 @@ regd_users.post("/login", (req,res) => {
 regd_users.put("/auth/review/:isbn", (req, res) => {
     //Write your code here
     const isbn = parseInt(req.params.isbn)
+    const user = req.session.authorization.username
     console.log(books[isbn])
     console.log(req.query)
-    const review = req.params.review
-    books[isbn].reviews.user = req.query.review
+    console.log(req.user)
+    console.log(req.session.authorization)
+    books[isbn].reviews[user] = req.query.review
+    return res.status(200).send(books[isbn])
+});
+
+// Add a book review
+regd_users.delete("/auth/review/:isbn", (req, res) => {
+    //Write your code here
+    const isbn = parseInt(req.params.isbn)
+    const user = req.session.authorization.username
+    console.log(books[isbn])
+    console.log(req.query)
+    console.log(req.user)
+    console.log(req.session.authorization)
+    delete books[isbn].reviews[user]
     return res.status(200).send(books[isbn])
 });
 
